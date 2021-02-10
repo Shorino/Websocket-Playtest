@@ -96,7 +96,6 @@ public class FrontendManager : MonoBehaviour
         try
         {
             ReceivedResponse responseObj = JsonUtility.FromJson<ReceivedResponse>(response);
-            Debug.Log(response);
             if(responseObj.action == "submitUsername")
             {
                 if(responseObj.success)
