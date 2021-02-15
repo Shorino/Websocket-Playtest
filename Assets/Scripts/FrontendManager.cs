@@ -28,13 +28,13 @@ public class FrontendManager : MonoBehaviour
     public TextMeshProUGUI promptText;
     public Button promptOkayButton;
 
-    void Prompt(string message, bool showButton)
+    public void Prompt(string message, bool showButton)
     {
         prompt.SetActive(true);
         promptText.text = message;
         promptOkayButton.gameObject.SetActive(showButton);
     }
-    void Prompt()
+    public void Prompt()
     {
         prompt.SetActive(false);
     }
@@ -60,12 +60,12 @@ public class FrontendManager : MonoBehaviour
         }
         scenes[scene].SetActive(true);
     }
-    void GoToPage1()
+    public void GoToPage1()
     {
         currentScene = 0;
         GoToScene(currentScene);
     }
-    void GoToPage2()
+    public void GoToPage2()
     {
         currentScene = 1;
         GoToScene(currentScene);
@@ -82,14 +82,14 @@ public class FrontendManager : MonoBehaviour
         connectButton.onClick.AddListener(() =>
         {
             Prompt("Connecting... Please Wait", false);
-            WebsocketManager.instance.Connect();
+            WebsocketManager2.instance.Connect();
         });
     }
     public void SubmitUsername()
     {
         string username = nameInputField.text;
         Message data = new Message("submitUsername", username);
-        WebsocketManager.instance.Send(data);
+        WebsocketManager2.instance.Send(data);
     }
     public void SubmitUsernameResponseHandler(string response)
     {
@@ -100,7 +100,7 @@ public class FrontendManager : MonoBehaviour
             {
                 if(responseObj.success)
                 {
-                    Prompt("Connected.", true);
+                    Prompt("Username submitted.", true);
                     GoToPage2();
                 }
                 else
@@ -146,7 +146,7 @@ public class FrontendManager : MonoBehaviour
         {
             string message = messageInputField.text;
             Message data = new Message("message", message);
-            WebsocketManager.instance.Send(data);
+            WebsocketManager2.instance.Send(data);
         }
     }
     public void ReceiveMessageHandler(string data)

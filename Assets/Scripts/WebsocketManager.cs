@@ -4,7 +4,8 @@ using NativeWebSocket;
 public class WebsocketManager : MonoBehaviour
 {
     public static WebsocketManager instance;
-    string url = "wss://hvsy18pboi.execute-api.ap-southeast-1.amazonaws.com/staging";
+    [HideInInspector]
+    public string url = "wss://hvsy18pboi.execute-api.ap-southeast-1.amazonaws.com/staging";
     public bool connect = false;
 
     private void Awake()
@@ -47,12 +48,14 @@ public class WebsocketManager : MonoBehaviour
         websocket.OnOpen += () =>
         {
             Debug.Log("Connection open!");
+            FrontendManager.instance.Prompt("Connected.", true);
             FrontendManager.instance.SubmitUsername();
         };
 
         websocket.OnError += (e) =>
         {
             Debug.Log("Error!");
+            FrontendManager.instance.Prompt("Error: " + e, true);
             Debug.Log(e);
         };
 
@@ -83,26 +86,5 @@ public class WebsocketManager : MonoBehaviour
             await websocket.SendText(JsonUtility.ToJson(message));
         }
     }
-    #endregion
-
-    #region Socket IO
-    /*Socket socket = null;
-
-    public void Connect()
-    {
-
-    }
-    void ListenEvent()
-    {
-
-    }
-    void CloseConnection()
-    {
-
-    }
-    public void Send(object message)
-    {
-
-    }*/
     #endregion
 }
